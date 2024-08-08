@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      java: corretto11  # Use Amazon Corretto 11 (or another Java version as needed)
+      java: corretto11
     commands:
       - echo Installing Maven
       - curl -sL https://apache.org/dyn/closer.cgi/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.zip | unzip -d /usr/local
