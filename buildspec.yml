@@ -2,28 +2,25 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      java: corretto11  # Use Amazon Corretto 11 (or another Java version as needed)
     commands:
-      - echo Installing dependencies...
-      # - mvn install  # For Maven projects
+      - echo Installing Maven
+      - curl -sL https://apache.org/dyn/closer.cgi/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.zip | unzip -d /usr/local
+      - export M2_HOME=/usr/local/apache-maven-3.8.5
+      - export PATH=$M2_HOME/bin:$PATH
+      - mvn --version  # Verify Maven installation
   pre_build:
     commands:
-      - echo Pre-build phase...
-       - mvn clean  # Clean up before building
+      - echo Pre-build phase: Cleaning project
+      - mvn clean
   build:
     commands:
-      - echo Building the project...
-      - mvn package # Package the application (jar/war files will be generated in the target directory)
-      - java -jar target/*.jar
+      - echo Build phase: Packaging the application
+      - mvn package
   post_build:
     commands:
-      - echo Build completed.
-
+      - echo Post-build phase: Build completed
 artifacts:
   files:
-    - '**/*'  # Include all files
-  base-directory: 'target'  # This is where Maven typically places the build artifacts
-  discard-paths: no  # Keep directory structure in the artifact
-
-cache:
-  paths:
-    - '/root/.m2/**/*'  # Cache Maven dependencies to speed up builds
+    - target/*.jar
