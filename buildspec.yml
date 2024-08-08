@@ -7,7 +7,6 @@ phases:
     commands:
       - echo Installing Maven
       - curl -sL https://apache.org/dyn/closer.cgi/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.zip | unzip -d /usr/local
-      - export M2_HOME=/usr/local/apache-maven-3.8.5
       - export PATH=$M2_HOME/bin:$PATH
       - mvn --version  # Verify Maven installation
   pre_build:
