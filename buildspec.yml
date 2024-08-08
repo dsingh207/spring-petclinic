@@ -2,17 +2,19 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      java: openjdk8
     commands:
       - echo Installing dependencies...
       # - mvn install  # For Maven projects
   pre_build:
     commands:
       - echo Pre-build phase...
-      # - mvn clean  # Clean up before building
+       - mvn clean  # Clean up before building
   build:
     commands:
       - echo Building the project...
-      - mvn package  # Package the application (jar/war files will be generated in the target directory)
+      - mvn package && mvn test # Package the application (jar/war files will be generated in the target directory)
       - java -jar target/*.jar
   post_build:
     commands:
