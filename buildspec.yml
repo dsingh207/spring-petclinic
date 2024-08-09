@@ -1,25 +1,38 @@
 version: 0.2
-
+ 
 phases:
   install:
     runtime-versions:
-      java: corretto11
+      java: corretto17 # Specify Java 17 runtime version
     commands:
-      - echo Installing Maven
-      - curl -sL https://apache.org/dyn/closer.cgi/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.zip | unzip -d /usr/local
+      - echo Verifying Java version...
+      - java -version # Ensure the correct Java version is being used
+      - javac -version # Ensure the correct Java compiler version is being used
+      - echo Installing Maven...
+      - curl -o apache-maven-3.9.1-bin.zip https://archive.apache.org/dist/maven/maven-3/3.9.1/binaries/apache-maven-3.9.1-bin.zip
+      - unzip apache-maven-3.9.1-bin.zip
+      - export M2_HOME=$PWD/apache-maven-3.9.1
       - export PATH=$M2_HOME/bin:$PATH
-      - mvn --version  # Verify Maven installation
+      - mvn -version # Validate Maven installation
+ 
   pre_build:
     commands:
-      - echo Pre-build phase: Cleaning project
-      - mvn clean
+      - echo Caching Maven dependencies...
+      - mvn dependency:go-offline -B # Cache Maven dependencies
+ 
   build:
     commands:
-      - echo Build phase: Packaging the application
-      - mvn package
+      - echo Building the application...
+      - mvn clean package -DskipTests -B # Compile and package the application in batch mode
+ 
   post_build:
     commands:
-      - echo Post-build phase: Build completed
+      - echo Build completed successfully!
+ 
+ 
 artifacts:
   files:
-    - target/*.jar
+    - '**/*'   
+cache:
+  paths:
+    - "/root/.m2/**/*" # Cache Maven dependencies for faster builds
