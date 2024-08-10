@@ -1,7 +1,7 @@
 version: 0.0
 os: linux
 files:
-  - source: /
+  - source: target/spring-petclinic-*.jar
     destination: /var/www/html/
  
 hooks:
@@ -13,18 +13,8 @@ hooks:
     - location: scripts/install_dependencies.sh
       timeout: 300
       runas: root
- 
-  AfterInstall:
-    - location: scripts/set_permissions.sh
+ AfterInstall:
+    - location: scripts/deploy.sh
       timeout: 300
       runas: root
- 
-  ApplicationStart:
-    - location: scripts/start_server.sh
-      timeout: 300
-      runas: root
- 
-  ValidateService:
-    - location: scripts/validate_service.sh
-      timeout: 300
-      runas: root
+
