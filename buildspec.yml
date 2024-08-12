@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      java: corretto11 # Specify Java 17 runtime version
+      java: corretto17 # Specify Java 17 runtime version
     commands:
       - echo Verifying Java version...
       - java -version # Ensure the correct Java version is being used
